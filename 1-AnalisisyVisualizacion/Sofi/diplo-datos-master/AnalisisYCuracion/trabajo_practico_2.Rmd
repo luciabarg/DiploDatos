@@ -1,0 +1,46 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r echo=TRUE}
+
+#   https://www.kaggle.com/ronitf/heart-disease-uci/downloads/heart-disease-uci.zip/1
+www = "https://raw.githubusercontent.com/solujan/diplo-datos/master/AnalisisYCuracion/input/heart.csv"
+data <- read.delim(www, sep=",",header = TRUE) 
+#data <- data[-1]
+
+
+print(data)
+
+```
+
+```{r echo=TRUE}
+plot(data[, 4:10], col = data$sex, pch = 18, main = "Players")
+```
+```{r}
+
+#data$CLASS[which(data$CLASS=='1')]<-"High School"
+#data$CLASS[which(data$CLASS=='2')]<-"College"
+#data$CLASS[which(data$CLASS=='2')]<-"Non player"
+#data
+
+summary(data)
+```
+
+
+```{r}
+library(mclust)
+
+# initialize 3 different classes.
+initialk <- mclust::hc(data = data, modelName = "EII")
+initialk <- mclust::hclass(initialk, 3)
+```
+
+```{r echo=TRUE}
+# Select 4 continuous variables and look for three distinct groups.
+mcl.model <- Mclust(data[, 3:14], 2)
+# Plot our results.
+plot(mcl.model, what = "classification", main = "Mclust Classification")
+```
+
